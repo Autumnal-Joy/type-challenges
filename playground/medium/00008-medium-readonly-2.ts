@@ -34,11 +34,8 @@
 
 /* _____________ Your Code Here _____________ */
 
-import { MyPick } from '../easy/00004-easy-pick'
-import { MyReadonly } from '../easy/00007-easy-readonly'
-import { MyOmit } from './00003-medium-omit'
-
-type MyReadonly2<T, K extends keyof T = keyof T> = MyOmit<T, K> & MyReadonly<MyPick<T, K>>
+type MyReadonly2<T, K extends keyof T = keyof T> = Omit<T, K> &
+  Readonly<Pick<T, K>>
 
 /* _____________ Test Cases _____________ */
 import type { Alike, Expect } from '@type-challenges/utils'

@@ -39,10 +39,15 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Chainable = {
-  option(key: string, value: any): any
-  get(): any
+type Recursive<T = {}> = {
+  option<K extends string, V>(
+    key: K extends keyof T ? never : K,
+    value: V
+  ): Recursive<Omit<T, K> & Record<K, V>>
+  get(): T
 }
+
+type Chainable = Recursive
 
 /* _____________ Test Cases _____________ */
 import type { Alike, Expect } from '@type-challenges/utils'

@@ -34,7 +34,11 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MyReadonly2<T, K> = any
+import { MyPick } from '../easy/00004-easy-pick'
+import { MyReadonly } from '../easy/00007-easy-readonly'
+import { MyOmit } from './00003-medium-omit'
+
+type MyReadonly2<T, K extends keyof T = keyof T> = MyOmit<T, K> & MyReadonly<MyPick<T, K>>
 
 /* _____________ Test Cases _____________ */
 import type { Alike, Expect } from '@type-challenges/utils'
@@ -43,7 +47,7 @@ type cases = [
   Expect<Alike<MyReadonly2<Todo1>, Readonly<Todo1>>>,
   Expect<Alike<MyReadonly2<Todo1, 'title' | 'description'>, Expected>>,
   Expect<Alike<MyReadonly2<Todo2, 'title' | 'description'>, Expected>>,
-  Expect<Alike<MyReadonly2<Todo2, 'description' >, Expected>>,
+  Expect<Alike<MyReadonly2<Todo2, 'description'>, Expected>>,
 ]
 
 // @ts-expect-error

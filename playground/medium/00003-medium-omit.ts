@@ -33,7 +33,7 @@
 import { MyPick } from '../easy/00004-easy-pick'
 import { MyExclude } from '../easy/00043-easy-exclude'
 
-type MyOmit<T, K extends keyof T> = MyPick<T, MyExclude<keyof T, K>>
+export type MyOmit<T, K extends keyof T> = MyPick<T, MyExclude<keyof T, K>>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

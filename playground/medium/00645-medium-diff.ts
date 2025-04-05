@@ -12,7 +12,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Diff<O, O1> = any
+type Diff<T extends {}, U extends {}> = Omit<T & U, keyof (T | U)>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

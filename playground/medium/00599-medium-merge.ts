@@ -27,7 +27,11 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Merge<F, S> = any
+type Compute<T> = {
+  [K in keyof T]: T[K];
+}
+
+type Merge<F, S> = Compute<Omit<F, keyof S> & S>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

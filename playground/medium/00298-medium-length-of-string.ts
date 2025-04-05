@@ -12,7 +12,12 @@
 
 /* _____________ Your Code Here _____________ */
 
-type LengthOfString<S extends string> = any
+type Recursive<
+  S extends string,
+  L extends unknown[],
+> = S extends `${infer F}${infer R}` ? Recursive<R, [...L, F]> : L['length']
+
+type LengthOfString<S extends string> = Recursive<S, []>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

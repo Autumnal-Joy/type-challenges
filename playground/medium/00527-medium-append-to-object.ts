@@ -19,7 +19,15 @@
 
 /* _____________ Your Code Here _____________ */
 
-type AppendToObject<T, U, V> = any
+type Compute<T extends {}> = {
+  [K in keyof T]: T[K];
+}
+
+type AppendToObject<T, K extends keyof any, V> = Compute<
+  T & {
+    [key in K]: V;
+  }
+>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

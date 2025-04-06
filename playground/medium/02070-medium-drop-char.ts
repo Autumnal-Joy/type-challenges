@@ -18,7 +18,17 @@
 
 /* _____________ Your Code Here _____________ */
 
-type DropChar<S, C> = any
+type ReplaceAll<
+  S extends string,
+  From extends string,
+  To extends string,
+> = From extends ''
+  ? S
+  : S extends `${infer L}${From}${infer R}`
+    ? `${L}${To}${ReplaceAll<R, From, To>}`
+    : S
+
+type DropChar<S extends string, C extends string> = ReplaceAll<S, C, ''>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

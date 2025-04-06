@@ -32,7 +32,30 @@
 
 /* _____________ Your Code Here _____________ */
 
-type PercentageParser<A extends string> = any
+type S4<Str, Result extends unknown[]> = Str extends '' ? Result : never
+
+type S3<
+  Str,
+  Result extends unknown[],
+> = Str extends `${infer First extends '%'}${infer Rest}`
+  ? S4<Rest, [...Result, First]>
+  : S4<Str, [...Result, '']>
+
+type S2<
+  Str,
+  Result extends unknown[],
+  N extends string = '',
+> = Str extends `${infer First extends number}${infer Rest}`
+  ? S2<Rest, Result, `${N}${First}`>
+  : S3<Str, [...Result, N]>
+
+type S1<Str, Result extends unknown[]> = Str extends `${infer First extends
+  | '+'
+  | '-'}${infer Rest}`
+  ? S2<Rest, [...Result, First]>
+  : S2<Str, [...Result, '']>
+
+type PercentageParser<A extends string> = S1<A, []>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

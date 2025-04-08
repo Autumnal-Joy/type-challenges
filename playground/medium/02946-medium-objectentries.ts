@@ -23,7 +23,11 @@
 
 /* _____________ Your Code Here _____________ */
 
-type ObjectEntries<T> = any
+type ObjectEntries<
+  T,
+  U = Required<T>,
+  K extends keyof U = keyof U,
+> = K extends unknown ? [K, U[K] extends never ? undefined : U[K]] : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

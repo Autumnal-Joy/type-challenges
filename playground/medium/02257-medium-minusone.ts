@@ -19,7 +19,23 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MinusOne<T extends number> = any
+type Rev<T extends string> = T extends `${infer L}${infer R}`
+  ? `${Rev<R>}${L}`
+  : T
+
+type ToN<T extends string> = T extends `${infer N extends number}` ? N : never
+
+type Table<T extends number> = [9, 0, 1, 2, 3, 4, 5, 6, 7, 8][T]
+
+type MinusOneImpl<T extends string> = `${T}` extends `${infer L}${infer R}`
+  ? L extends '0'
+    ? R extends '1'
+      ? `${Table<ToN<L>>}`
+      : `${Table<ToN<L>>}${MinusOneImpl<R>}`
+    : `${Table<ToN<L>>}${R}`
+  : T
+
+type MinusOne<T extends number> = ToN<Rev<MinusOneImpl<Rev<`${T}`>>>>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

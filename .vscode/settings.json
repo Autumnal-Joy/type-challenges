@@ -1,4 +1,7 @@
 {
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
   "i18n-ally.localesPaths": "scripts/locales",
   "i18n-ally.sourceLanguage": "en",
   "i18n-ally.sortKeys": true,

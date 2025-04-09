@@ -15,7 +15,13 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Zip<T, U> = any
+type Zip<
+  T extends unknown[],
+  U extends unknown[],
+  Res extends unknown[] = [],
+> = Res['length'] extends T['length'] | U['length']
+  ? Res
+  : Zip<T, U, [...Res, [T[Res['length']], U[Res['length']]]]>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

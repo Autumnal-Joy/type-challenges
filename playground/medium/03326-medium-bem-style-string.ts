@@ -16,7 +16,25 @@
 
 /* _____________ Your Code Here _____________ */
 
-type BEM<B extends string, E extends string[], M extends string[]> = any
+type Join<S extends string[], D extends string = ''> = S extends [
+  infer F extends string,
+  ...infer R extends string[],
+]
+  ? R extends []
+    ? F
+    : `${F}${D}${Join<R, D>}`
+  : ''
+
+type BEM<
+  B extends string,
+  E extends string[],
+  M extends string[],
+  N extends string = M[number],
+> = M extends []
+  ? Join<[B, ...E], '__'>
+  : N extends unknown
+    ? Join<[Join<[B, ...E], '__'>, N], '--'>
+    : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

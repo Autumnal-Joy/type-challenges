@@ -25,7 +25,38 @@
 
 /* _____________ Your Code Here _____________ */
 
-type GreaterThan<T extends number, U extends number> = any
+type JudgeDigit<
+  T extends string,
+  U extends string,
+  V extends unknown[] = [],
+> = Equal<T, U> extends true
+  ? 0
+  : `${V['length']}` extends U
+    ? 1
+    : `${V['length']}` extends T
+      ? -1
+      : JudgeDigit<T, U, [unknown, ...V]>
+
+type Judge<
+  T extends string,
+  U extends string,
+  V extends -1 | 0 | 1 = 0,
+> = T extends `${infer F1}${infer R1}`
+  ? U extends `${infer F2}${infer R2}`
+    ? V extends 0
+      ? Judge<R1, R2, JudgeDigit<F1, F2>>
+      : Judge<R1, R2, V>
+    : 1
+  : U extends `${infer _}${infer _}`
+    ? -1
+    : V
+
+type GreaterThan<T extends number, U extends number> = Judge<
+  `${T}`,
+  `${U}`
+> extends 1
+  ? true
+  : false
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

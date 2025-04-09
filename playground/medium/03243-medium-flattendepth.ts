@@ -21,7 +21,17 @@
 
 /* _____________ Your Code Here _____________ */
 
-type FlattenDepth = any
+type FlattenDepth<
+  T extends unknown[],
+  D extends number = 1,
+  U extends unknown[] = [],
+> = U['length'] extends D
+  ? T
+  : T extends [infer F, ...infer R]
+    ? F extends Array<unknown>
+      ? [...FlattenDepth<F, D, [0, ...U]>, ...FlattenDepth<R, D, U>]
+      : [F, ...FlattenDepth<R, D, U>]
+    : []
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

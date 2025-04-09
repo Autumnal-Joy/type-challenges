@@ -21,7 +21,15 @@
 
 /* _____________ Your Code Here _____________ */
 
-type FlipArguments<T> = any
+type Reverse2<T extends unknown[]> = T extends [infer First, ...infer Rest]
+  ? [...Reverse2<Rest>, First]
+  : []
+
+type FlipArguments<T extends Function> = T extends (
+  ...args: infer A
+) => infer R
+  ? (...args: Reverse2<A>) => R
+  : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

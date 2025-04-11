@@ -24,7 +24,17 @@ type Fill<
   N,
   Start extends number = 0,
   End extends number = T['length'],
-> = any
+  State extends boolean = false,
+  Res extends unknown[] = [],
+> = Res['length'] extends T['length']
+  ? Res
+  : Res['length'] extends End
+    ? Fill<T, N, Start, End, Res['length'] extends End ? false : Res['length'] extends Start ? true : State, [...Res, T[Res['length']]]>
+    : State extends true
+      ? Fill<T, N, Start, End, State, [...Res, N]>
+      : Res['length'] extends Start
+        ? Fill<T, N, Start, End, true, [...Res, N]>
+        : Fill<T, N, Start, End, State, [...Res, T[Res['length']]]>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

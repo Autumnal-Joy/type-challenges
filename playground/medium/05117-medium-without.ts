@@ -18,7 +18,20 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Without<T, U> = any
+type WithoutOne<T extends unknown[], U> = T extends [infer F, ...infer R]
+  ? Equal<F, U> extends true
+    ? WithoutOne<R, U>
+    : [F, ...WithoutOne<R, U>]
+  : []
+
+type Without<
+  T extends unknown[],
+  U extends unknown | unknown[],
+> = U extends unknown[]
+  ? U extends [infer F, ...infer R]
+    ? Without<WithoutOne<T, F>, R>
+    : T
+  : WithoutOne<T, U>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

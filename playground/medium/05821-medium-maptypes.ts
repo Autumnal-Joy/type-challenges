@@ -39,7 +39,13 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MapTypes<T, R> = any
+type MapTypes<T, R extends { mapFrom: unknown, mapTo: unknown }> = {
+  [K in keyof T]: T[K] extends R['mapFrom']
+    ? R extends { mapFrom: T[K] }
+      ? R['mapTo']
+      : never
+    : T[K];
+}
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

@@ -18,7 +18,15 @@
 
 /* _____________ Your Code Here _____________ */
 
-type IndexOf<T, U> = any
+type IndexOf<
+  T extends unknown[],
+  U,
+  V extends unknown[] = [],
+> = V['length'] extends T['length']
+  ? -1
+  : Equal<T[V['length']], U> extends true
+    ? V['length']
+    : IndexOf<T, U, [...V, 0]>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

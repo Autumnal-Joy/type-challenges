@@ -16,7 +16,17 @@
 
 /* _____________ Your Code Here _____________ */
 
-type NumberRange<L, H> = any
+type NumberRange<
+  L extends number,
+  H extends number,
+  Res extends number[] = [],
+  Cnt extends unknown[] = [],
+  Flag extends boolean = Cnt['length'] extends L ? true : false,
+> = Flag extends true
+  ? Cnt['length'] extends H
+    ? Res[number] | Cnt['length']
+    : NumberRange<L, H, [...Res, Cnt['length']], [...Cnt, unknown], true>
+  : NumberRange<L, H, Res, [...Cnt, unknown]>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
